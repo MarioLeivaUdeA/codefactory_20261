@@ -16,6 +16,8 @@
 
 	<properties>
 		<java.version>21</java.version>
+		<serenity.version>4.2.1</serenity.version>
+		<cucumber.version>7.18.1</cucumber.version>
 	</properties>
 
 	<dependencies>
@@ -102,39 +104,63 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Serenity BDD & Cucumber -->
+		<dependency>
+			<groupId>net.serenity-bdd</groupId>
+			<artifactId>serenity-core</artifactId>
+			<version>${serenity.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.serenity-bdd</groupId>
+			<artifactId>serenity-cucumber</artifactId>
+			<version>${serenity.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.serenity-bdd</groupId>
+			<artifactId>serenity-screenplay</artifactId>
+			<version>${serenity.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.serenity-bdd</groupId>
+			<artifactId>serenity-screenplay-rest</artifactId>
+			<version>${serenity.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.serenity-bdd</groupId>
+			<artifactId>serenity-spring</artifactId>
+			<version>${serenity.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Cucumber Spring Integration -->
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-spring</artifactId>
+			<version>${cucumber.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- JUnit Platform Suite for Cucumber execution -->
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-suite</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-junit-platform-engine</artifactId>
+			<version>${cucumber.version}</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
 		<plugins>
-						<!-- Plugin Sonar Scanner -->
-			<plugin>
-			    <groupId>org.sonarsource.scanner.maven</groupId>
-			    <artifactId>sonar-maven-plugin</artifactId>
-			    <version>3.11.0.3922</version>
-			</plugin>
-			
-			<!-- Plugin JaCoCo para Coverage -->
-			<plugin>
-			    <groupId>org.jacoco</groupId>
-			    <artifactId>jacoco-maven-plugin</artifactId>
-			    <version>0.8.12</version>
-			    <executions>
-			        <!-- Preparar agente durante tests -->
-			        <execution>
-			            <goals>
-			                <goal>prepare-agent</goal>
-			            </goals>
-			        </execution>
-			        <!-- Generar reporte después de tests -->
-			        <execution>
-			            <id>report</id>
-			            <phase>test</phase>
-			            <goals>
-			                <goal>report</goal>
-			            </goals>
-			        </execution>
-			    </executions>
-			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -155,6 +181,20 @@
 						<spring.classformat.ignore>true</spring.classformat.ignore>
 					</systemPropertyVariables>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>net.serenity-bdd.maven.plugins</groupId>
+				<artifactId>serenity-maven-plugin</artifactId>
+				<version>${serenity.version}</version>
+				<executions>
+					<execution>
+						<id>serenity-reports</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>aggregate</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
